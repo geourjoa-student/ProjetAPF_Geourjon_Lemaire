@@ -97,7 +97,7 @@ let put_joueur ( j : joueur ) : unit =
 
 let put_partie ( p : partie ) : unit =
   begin
-    print_string " *** Jarnac *** \n\n" ;
+    print_string " \n \n*** Jarnac *** \n\n" ;
     if p.joueurCourant = Joueur1 then
       print_string "Joueur 1 joue : \n\n"
     else
@@ -197,14 +197,15 @@ let rec echangerjarnac (oldm:Dictionnaire.lettre list)(newm:Dictionnaire.lettre 
 
 (*TODO*)
 let jarnaquer ( p : partie) ( j : typejoueur) : partie =
-  print_string "Le coup de jarnac n'est pas ecnore implémenté \n" ;
+  print_string "Le coup de jarnac n'est pas encore implémenté \n" ;
   raise Fin_de_tour		     
 
 let faire_un_jarnac ( p : partie ) ( j : typejoueur ): partie =
-  print_string "Voulez vous tenter un jarnac ? oui (o) ou non (n).\n" ;
+  print_string "Voulez vous tenter un jarnac ? oui (o) ou non (n).\n(adversaire) " ;
   match read_line () with
   | y when y="y" -> jarnaquer p j
-  | n when n="n" -> print_string "La main passe !" ; p
+  | n when n="n" -> print_string "La main passe !\n" ;
+		    raise Fin_de_tour
   | _ -> print_string "Commande incorrecte, la main passe !" ;
 	 raise Fin_de_tour
 
@@ -229,21 +230,21 @@ let terminer_partie ( p : partie) : partie =
 
 		     
 
-(* TODO erreur de compilation sur la premiere igne du match*)		     
-let jouerTour ( p : partie ) : partie =
- let partie = ref p in
+(* TODO erreur de compilation sur la premiere ligne du match*)		     
+let jouerTour ( par : partie ) : partie =
+ let partie = ref par in
   try
      
       while true do
-	print_string "Voulez vous passer (p),ajouter un mot (a) ou modifier un mot déjà présent (m) ? \n" ;
+	print_string "Voulez vous passer (p),ajouter un mot (a) ou modifier un mot déjà présent (m) ? \n(joueur) " ;
 	match read_line () with
-	| p when p="p" -> partie := faire_un_jarnac (!partie) p.joueurCourant
-	| a when a="a" -> partie := ajouter_un_mot (!partie) p.joueurCourant
-	| m when m="m" ->  partie := modifier_un_mot (!partie) p.joueurCourant
+	| p when p="p" -> partie := faire_un_jarnac !partie !partie.joueurCourant
+	| a when a="a" -> partie := ajouter_un_mot (!partie) !partie.joueurCourant
+	| m when m="m" ->  partie := modifier_un_mot (!partie) !partie.joueurCourant
 	| _ -> print_string "Commande incorrecte, la main passe !" ;
 	       raise Fin_de_tour
       done ;
-      p (* Inutile, uniquement pour la compilation car on n'executera jamais cette ligne *)
+      !partie (* Inutile, uniquement pour la compilation car on n'executera jamais cette ligne *)
     with Fin_de_tour -> terminer_partie !partie
 
 
