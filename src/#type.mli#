@@ -1,0 +1,9 @@
+
+    type lettre = char
+    type mot = lettre list
+    type pioche = lettre list
+    type joueur = { nom : mot ; mutable mots : mot list;  mutable score : int }
+		    (*type partie = { mutable joueur1 : joueur ; mutable joueur2 = joueur; mutable dico : dico; mutable pioche : pioche}*)
+    
+    
+
