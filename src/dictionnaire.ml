@@ -85,7 +85,7 @@ let add ( m : mot) ( d : dico ) : dico =
 		   (* print_string "Appel sur un noeud fils\n" ;*)
 		   let ncopy = Array.copy n in
 		   let nmodifie = (sub_add reste n.(l)) in
-		   let _ = (ncopy.(l)<-nmodifie) in (* sans copy utilisé une copy tout les sous arbre étaitsont mis à jour *)
+		   let _ = (ncopy.(l)<-nmodifie) in (* sans utilisé une copy tout les sous arbre sont mis à jour *)
 		   Noeud (ncopy,b)in
   
   sub_add m d
