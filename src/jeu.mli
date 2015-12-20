@@ -1,4 +1,4 @@
-type etat = EnCours | Joueur1Gagnant | Joueur2Perdant
+type etat = EnCours | Joueur1Gagnant | Joueur2Gagnant | Egalite
 
 type pioche = Dictionnaire.lettre list
 		     

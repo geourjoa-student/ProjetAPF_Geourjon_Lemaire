@@ -1,5 +1,5 @@
-type etat = EnCours | Joueur1Gagnant | Joueur2Perdant
-		  
+type etat = EnCours | Joueur1Gagnant | Joueur2Gagnant | Egalite
+
 type pioche = Dictionnaire.lettre list
 		     
 type joueur = { nom : string ;
@@ -203,27 +203,72 @@ let jarnaquer ( p : partie) ( j : typejoueur) : partie =
 let faire_un_jarnac ( p : partie ) ( j : typejoueur ): partie =
   print_string "Voulez vous tenter un jarnac ? oui (o) ou non (n).\n(adversaire) " ;
   match read_line () with
-  | y when y="y" -> jarnaquer p j
+  | o when o="o" -> jarnaquer p j
   | n when n="n" -> print_string "La main passe !\n" ;
 		    raise Fin_de_tour
   | _ -> print_string "Commande incorrecte, la main passe !" ;
 	 raise Fin_de_tour
 
+let rec lettres_disponibles (mot:Dictionnaire.lettre list)(main:Dictionnaire.lettre list):bool =
+    let rec present (l:Dictionnaire.lettre)(main:Dictionnaire.lettre list):bool*Dictionnaire.lettre list=
+      match main with
+      |[]->false,[]
+      |e::fin->if e=l then true,fin else let (b,mainrestante)=present l fin in b,(e::mainrestante) in
+    match mot with
+    |[]->true
+    |e::fin-> let (b,mainrestante)= present e main in if b then lettres_disponibles fin mainrestante else false
+
+let getJoueur ( p : partie ) (j : typejoueur) : joueur =
+  match j with
+    |Joueur1->p.joueur1
+    |Joueur2->p.joueur2
+       
 (*TODO*)
 let ajouter_un_mot ( p : partie ) (j : typejoueur) : partie =
-  print_string "L'ajout de mot n'est pas encore implémenté \n" ;
-  raise Fin_de_tour
+  begin
+    let joueur = ref (getJoueur p j) in
+      print_string "Entrée un mot \n" ;
+      let mot = ref (Dictionnaire.explode (read_line ())) in
+      if ((Dictionnaire.member (!mot) p.dico)&&(lettres_disponibles !mot !joueur.main))
+      then (!joueur.mots<- (jouermot !mot !joueur.mots);
+            let (newMain,newPioche)=piocher !joueur.main p.pioche 1 in
+	    !joueur.main<- newMain; p.pioche<-newPioche;)
+      else (print_string "Mot incorrect \n";)
+  end;
+  p
+(* raise Fin_de_tour *)
 
 (*TODO*)
 let modifier_un_mot ( p : partie ) ( j : typejoueur ) : partie =
-  print_string "La modification de mot n'est pas encore implémenté \n" ;
-  raise Fin_de_tour
+  print_string "Quels mots voulez vous modifier ? Saisissez le numéro du mot" ; 
+  let l = read_int () in
+  let mots = (if j = Joueur1 then p.joueur1.mots else p.joueur2.mots) in
+  if l>0 && l<= longueur mots then
+    begin
+      p
+    end
+  else
+    begin
+      print_string "Commande incorrecte, la main passe \n" ;
+      raise Fin_de_tour
+    end
     
 
 (*TODO rajouter le test qui permet de vérifier que la partie est terminé et qui jette l'exception*)
 let terminer_partie ( p : partie) : partie =
-  p
-
+    if (longueur p.joueur1.mots = 8) || (longueur p.joueur2.mots = 8) then
+      begin
+	if p.joueur1.score > p.joueur2.score then
+	  p.etat <- Joueur2Gagnant
+	else if p.joueur1.score < p.joueur2.score then
+	  p.etat <-Joueur2Gagnant
+	else 
+	  p.etat<-Egalite ;
+	raise Partie_termine
+      end 
+	
+    else
+      p
 
 
 
