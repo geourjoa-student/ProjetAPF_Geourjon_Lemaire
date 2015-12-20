@@ -14,8 +14,7 @@ type partie = { mutable joueur1 : joueur ;
 		mutable etat : etat
 	      }
 
-exception Joueur1Gagne
-exception Joueur2Gagne
+
 	    
 val creer_partie : string -> string -> string -> partie
 

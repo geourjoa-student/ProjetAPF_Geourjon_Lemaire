@@ -1,4 +1,4 @@
-let rec put_mot ( m : Type.mot) : unit =
+let rec put_mot ( m : Dictionnaire.mot) : unit =
   match m with
   | [] ->()
   | t::reste ->
@@ -9,11 +9,11 @@ let rec put_mot ( m : Type.mot) : unit =
        put_mot reste
      end
 
-let put_main ( m : Type.mot ) : unit =
+let put_main ( m : Dictionnaire.mot ) : unit =
   put_mot m
 
 
-let rec put_mots ( l : Type.mot list ) : unit =
+let rec put_mots ( l : Dictionnaire.mot list ) : unit =
   match l with
   | [] -> ()
   | t::reste ->
@@ -23,7 +23,7 @@ let rec put_mots ( l : Type.mot list ) : unit =
      end
 
 
-let put_joueur ( j : joueur ) : unit =
+let put_joueur ( j : Jeu.joueur ) : unit =
   begin
     print_string ("Joueur : " ^ j.nom ^ " Score : ") ; print_int j.score ;
     print_string "-------------------------------------\n";
@@ -36,7 +36,7 @@ let put_joueur ( j : joueur ) : unit =
   end
 
 
-let put_partie ( p : partie ) : unit =
+let put_partie ( p : Jeu.partie ) : unit =
   begin
     print_string " *** Jarnac *** \n" ;
     put_joueur p.joueur1 ;

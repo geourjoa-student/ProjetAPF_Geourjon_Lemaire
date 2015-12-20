@@ -3,8 +3,8 @@ type lettre = char
 type mot = lettre list
 
 val explode : string -> char list
-val dico_plein : dico
-val dico_vide : dico
+val dico_plein : unit -> dico
+val dico_vide : unit -> dico
 val member : mot -> dico -> bool
 val add : mot -> dico -> dico
 val remove : mot -> dico -> dico
