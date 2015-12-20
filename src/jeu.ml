@@ -14,9 +14,7 @@ type partie = { mutable joueur1 : joueur ;
 		mutable etat : etat
 	      }
 
-exception Joueur1Gagne
 
-exception Joueur2Gagne
 
 let lettresDisponibles = ['A';'A';'A';'A';'A';'A';'A';'A';'A';'A';'A';'A';'A';'A';
 			  'B';'B';'B';'B';

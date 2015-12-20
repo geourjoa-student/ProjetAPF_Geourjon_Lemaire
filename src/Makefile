@@ -12,10 +12,10 @@ all: $(EXEC) clean
 #	ocamlc -c $<
 
 jarnac.cmo : jarnac.ml jeu.cmo affichage.cmo
-	ocamlc -c jarnac.ml jeu.cmo
+	ocamlc -c jarnac.ml jeu.cmo 
 
 jarnac : jeu.cmo jarnac.cmo
-	ocamlc -o jarnac jeu.cmo jarnac.cmo
+	ocamlc -o jarnac dictionnaire.cmo jeu.cmo affichage.cmo jarnac.cmo
 
 jeu.cmo : jeu.ml jeu.cmi dictionnaire.cmo
 	ocamlc -c jeu.ml 

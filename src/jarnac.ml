@@ -1,4 +1,4 @@
-let maPartie = ref (Jeu.creer_partie "Bob" "Toto" "../dico/dico-fr.txt") in
+let maPartie = ref (Jeu.creer_partie "Bob" "Toto" "../dico/dico_fr.txt") in
 
       begin
 	while true  do

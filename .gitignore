@@ -1,2 +1,5 @@
 src/*.cmi
 src/*.cmo
+
+src/.#*
+
